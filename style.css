@@ -1,0 +1,300 @@
+/**
+ * TABLE OF CONTENTS
+ *
+ * 1. Global Styles
+ *    - Import Statements
+ *    - Root Variables
+ *    - Basic HTML Element Styling
+ *
+ * 2. Layout
+ *    - Body Style
+ *    - Form Container
+ *    - General Layout Containers
+ *
+ * 3. Header and Logotype
+ *    - Logotype Styling
+ *    - Header Styling
+ *
+ * 4. Form Styling
+ *    - Form Element Styles
+ *    - Input and Select Styles
+ *    - Label Styling
+ *
+ * 5. Button Styles
+ *    - Submit Button
+ *    - Round Button
+ *    - Delete Button
+ *
+ * 6. Table Styling
+ *    - DataTable Styling
+ *    - Table Content Alignment
+ *
+ * 7. Modal Component
+ *    - Modal Styling
+ *    - Modal Content
+ *    - Close Button
+ */
+
+@import url(https://fonts.googleapis.com/css?family=Open+Sans);
+
+:root {
+  --primary-color: #0076bc;
+  --secondary-color: #fff;
+}
+
+html * {
+  font-family: "Open Sans", sans-serif !important;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f4f4f4;
+  color: #fff;
+}
+
+#logotype {
+  display: block;
+  margin: 5rem auto -0.5rem;
+  width: 20rem;
+}
+
+.form-container {
+  height: 100%;
+  width: 50rem;
+  background-color: var(--primary-color);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  text-align: center;
+  box-shadow: 0 2.8px 2.2px rgba(0, 0, 0, 0.034),
+    0 6.7px 5.3px rgba(0, 0, 0, 0.048), 0 12.5px 10px rgba(0, 0, 0, 0.06),
+    0 22.3px 17.9px rgba(0, 0, 0, 0.072), 0 41.8px 33.4px rgba(0, 0, 0, 0.086),
+    0 100px 80px rgba(0, 0, 0, 0.12);
+}
+
+.form-container > form {
+  display: flex;
+  flex: 1 1 0px;
+  width: 100%;
+  flex-direction: column;
+  gap: 35px;
+  align-items: center;
+  justify-content: center;
+}
+
+.form-container hr {
+  width: 50%;
+}
+
+.fr {
+  display: flex;
+  flex-direction: column;
+  height: 100%; /* Full height to allow footer at bottom */
+}
+
+.container {
+  display: flex;
+  align-items: left;
+  margin-left: -1rem;
+}
+
+.fname-container,
+.lname-container,
+.email-container,
+.container {
+  position: relative;
+  width: 50%;
+}
+
+.datatable {
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.formfooter {
+  width: 50%;
+  align-items: left !important;
+  justify-content: left !important;
+}
+
+.header {
+  margin-top: -1rem;
+  margin-bottom: -0.5rem;
+}
+
+label {
+  position: absolute;
+  color: #fff;
+  font-weight: 600;
+  left: -10px;
+  top: -15px;
+  z-index: 1;
+  background-color: var(--primary-color);
+  padding-right: 3%;
+}
+
+input,
+select,
+table {
+  background: transparent;
+  border: none;
+  height: 30px;
+  outline: white solid;
+  font-size: medium;
+  color: var(--secondary-color);
+  padding-left: 3%;
+  border-radius: 4px;
+  transition: all 0.3s;
+  width: 100%;
+}
+
+.select-wrapper {
+  position: relative;
+  display: block;
+  width: 10rem;
+  background-color: transparent;
+}
+
+.select-wrapper:after {
+  content: "▼"; /* Unicode for down arrow */
+  color: white;
+  position: absolute;
+  top: 50%;
+  left: 12rem;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.selectField {
+  width: auto;
+  margin-right: 0.5rem;
+  color: white;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  padding-right: 30px;
+  background-color: transparent;
+  border: 1px solid #ccc;
+}
+.selectField option:not(:first-child) {
+  color: black;
+}
+
+.selectLabel {
+  position: absolute;
+  width: 12rem;
+  color: #fff;
+  font-weight: 900;
+  left: 0;
+  top: -2rem;
+  z-index: 1;
+  background-color: var(--primary-color);
+  padding-right: 3%;
+}
+
+input:focus {
+  outline: #004172 solid;
+  transform: scale(1.03) perspective(1px);
+}
+
+.leftAlignTableContent {
+  text-align: left;
+}
+
+.leftAlignTableContent th,
+.leftAlignTableContent td {
+  text-align: left;
+  padding-left: 10px;
+}
+
+.submit-btn {
+  width: 10rem;
+  left: 0 !important;
+  font-size: medium;
+  background-color: transparent;
+  color: var(--secondary-color);
+  font-weight: 600;
+  border: 3px solid #fff;
+  border-radius: 4px;
+  transition: all 0.3s;
+  display: block; /* Makes the button a block-level element */
+}
+
+.submit-btn:hover {
+  background-color: var(--secondary-color);
+  color: var(--primary-color);
+  font-weight: 600;
+  outline: none;
+  transform: scale(1.08) perspective(1px);
+}
+
+.roundButton {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  text-align: center;
+  border-radius: 50%;
+  background-color: #c0e4f2;
+  color: black;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  margin-left: 4.5rem;
+}
+
+.roundButton:hover {
+  background-color: #b8e1c8;
+}
+
+.delete-btn {
+  background-color: #d24723;
+  font-weight: 700;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+/* Modalens CSS */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+  background-color: #004172;
+  color: #f4f4f4;
+  margin: 15% auto;
+  padding: 20px;
+  border: 3px solid #fff;
+  border-radius: 6px;
+  margin-top: 20rem;
+  width: 60%;
+}
+
+.close {
+  color: #fff;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}

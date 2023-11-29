@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="sv-SE">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Anmälan till Nyhetsbrevet</title>
+  </head>
+  <body>
+    <div class="form-container">
+      <form class="fr">
+        <img
+          src="https://goteborg.se/wps/contenthandler/dav/fs-type1/common-resources/gbg/img/goteborg3.0/logo-gbg.svg"
+          alt="Göteborg Logo"
+          id="logotype"
+        />
+        <hr />
+        <h1 class="header">Anmälan till Nyhetsbrev</h1>
+        <h2 class="header">
+          Anmäl dig till <br />
+          vårt nyhetsbrev
+        </h2>
+        <hr />
+        <div class="container">
+          <h3 class="header">Personuppgifter</h3>
+        </div>
+        <div class="fname-container">
+          <label for="name">Namn*</label>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            required
+            pattern="[A-Za-z\s]+"
+            title="Enbart bokstäver och enstaka mellanslag är tillåtna"
+          />
+        </div>
+        <div class="email-container">
+          <label for="email">Email*</label>
+          <input type="text" id="email" name="email" required />
+          <p>*Obiligatorisk uppgift</p>
+        </div>
+        <div class="container">
+          <div class="select-wrapper">
+            <label for="selectField" class="selectLabel"
+              >Välj områden att bevaka:</label
+            >
+            <select
+              class="selectField"
+              id="selectField"
+              onchange="checkSelection()"
+            ></select>
+          </div>
+          <button type="button" id="addRowBtn" class="roundButton">+</button>
+        </div>
+        <div class="container">
+          <table
+            id="dataTable"
+            class="datatable leftAlignTableContent"
+            aria-label="Valda områden för nyhetsbrev"
+          >
+            <thead>
+              <tr>
+                <th>Dina valda områden visas här</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+        <div class="formfooter">
+          <button
+            type="button"
+            id="submit-btn"
+            class="submit-btn"
+            onclick="validateForm()"
+            aria-label="Skicka in anmälan till nyhetsbrev"
+          >
+            Skicka in
+          </button>
+        </div>
+        <hr />
+      </form>
+    </div>
+
+    <!-- Modal -->
+    <div
+      id="myModal"
+      class="modal"
+      role="dialog"
+      aria-label="Bekräftelse på anmälan till nyhetsbrev"
+    >
+      <div class="modal-content">
+        <span class="close" aria-label="Stäng dialog">&times;</span>
+        <p id="modalText"></p>
+      </div>
+    </div>
+
+    <!-- Script för applikationen -->
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const areas = [
+          "Förskola och utbildning",
+          "Litteratur och bibliotek",
+          "Stadsutveckling",
+          "Motion och idrott",
+          "Trafik och gator",
+          "Arbetsliv och jobb",
+          "Kommun och politik",
+        ];
+
+        var selectField = document.getElementById("selectField");
+
+        areas.forEach(function (area) {
+          var option = document.createElement("option");
+          option.value = area;
+          option.text = area;
+          selectField.appendChild(option);
+        });
+      });
+
+      function checkSelection() {
+        const selectField = document.getElementById("selectField");
+        if (selectField.value) {
+          selectField.style.color = "white";
+        } else {
+          selectField.style.color = "black";
+        }
+      }
+
+      document
+        .getElementById("addRowBtn")
+        .addEventListener("click", function () {
+          var selectField = document.getElementById("selectField");
+          var selectValue = selectField.value;
+
+          // Kontroller att listan innehåller något
+          if (selectValue === "") {
+            return; // Stoppa funktionen om den är tom
+          }
+
+          var table = document
+            .getElementById("dataTable")
+            .getElementsByTagName("tbody")[0];
+          var newRow = table.insertRow(table.rows.length);
+
+          var cell1 = newRow.insertCell(0);
+          cell1.innerHTML = selectValue;
+
+          var cell2 = newRow.insertCell(1);
+          var deleteButton = document.createElement("button");
+          deleteButton.classList.add("delete-btn");
+          deleteButton.innerHTML = "Ta bort";
+          deleteButton.onclick = function () {
+            var row = this.parentNode.parentNode;
+            table.removeChild(row);
+            // Lägg tillbaka objektet i listan
+            addOption(selectValue);
+            // Dölj fältet om alla poster är valda
+            checkSelectFieldVisibility();
+          };
+          cell2.appendChild(deleteButton);
+
+          // Ta bort valda poster ur listan
+          for (var i = 0; i < selectField.options.length; i++) {
+            if (selectField.options[i].value == selectValue) {
+              selectField.remove(i);
+              break;
+            }
+          }
+
+          // Dölj fältet om alla poster är valda
+          checkSelectFieldVisibility();
+        });
+
+      function addOption(value) {
+        var selectField = document.getElementById("selectField");
+        var option = document.createElement("option");
+        option.value = value;
+        option.text = value;
+        selectField.appendChild(option);
+      }
+
+      function checkSelectFieldVisibility() {
+        var selectField = document.getElementById("selectField");
+        var table = document.getElementById("dataTable");
+        var totalRows = table.rows.length - 1;
+
+        if (
+          selectField.options.length === 0 ||
+          totalRows === selectField.options.length
+        ) {
+          selectField.style.display = "none";
+        } else {
+          selectField.style.display = "";
+        }
+      }
+
+      function validateForm() {
+        var name = document.getElementById("name");
+        var email = document.getElementById("email");
+        var table = document.getElementById("dataTable");
+        var selectField = document.getElementById("selectField");
+
+        const areas = [
+          "Förskola och utbildning",
+          "Litteratur och bibliotek",
+          "Stadsutveckling",
+          "Motion och idrott",
+          "Trafik och gator",
+          "Arbetsliv och jobb",
+          "Kommun och politik",
+        ];
+
+        // Validera namn: endast alfabetet och enstaka mellanrum
+        var namePattern = /^[A-Za-zåäöÅÄÖ\s]+$/;
+        if (!namePattern.test(name.value)) {
+          alert("Namnet är inte korrekt inskrivet");
+          return false;
+        }
+
+        // Validera email format
+        var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailPattern.test(email.value)) {
+          alert("Något är fel med din epostadress.");
+          return false;
+        }
+
+        // // Validera att man valt ett område för nyhetsbrevet från 'areas'
+        // if (!areas.includes(selectField.value)) {
+        //   alert("Please select a valid option.");
+        //   return false;
+        // }
+
+        // Kontrollera att användaren valt åtminstone ett område för sitt nyhetsbrev
+        if (table.rows.length <= 1) {
+          alert("Vänligen välj åtminstone ett område för nyhetsbrevet.");
+          return false;
+        }
+
+        // Kontrollera att man valt ett område
+        var totalOptions = selectField.options.length;
+        var totalRows = table.rows.length - 1; // Uteslut rubrikraden
+        if (totalRows < totalOptions) {
+          if (selectField.selectedIndex === -1 || selectField.value === "") {
+            alert("Please select an option.");
+            return false;
+          }
+        }
+
+        showModalWithData();
+      }
+
+      function showModalWithData() {
+        var name = document.getElementById("name").value;
+        var email = document.getElementById("email").value;
+        var table = document.getElementById("dataTable");
+        var dataText =
+          "Tack för din anmälan, vi har mottagit följande information: \n \n" +
+          "Namn: " +
+          name +
+          "\nEmail: " +
+          email +
+          "\n\nNyhetsbrev gällande:\n";
+
+        for (var i = 1, row; (row = table.rows[i]); i++) {
+          for (var j = 0, col; (col = row.cells[j]); j++) {
+            if (col.querySelector("button")) {
+              continue;
+            }
+            dataText += col.innerText + (j < row.cells.length - 1 ? "\t" : "");
+          }
+          dataText += "\n";
+        }
+
+        document.getElementById("modalText").innerText = dataText;
+        var modal = document.getElementById("myModal");
+        modal.style.display = "block";
+
+        var span = document.getElementsByClassName("close")[0];
+        span.onclick = function () {
+          modal.style.display = "none";
+        };
+
+        window.onclick = function (event) {
+          if (event.target == modal) {
+            modal.style.display = "none";
+          }
+        };
+      }
+    </script>
+  </body>
+</html>
